@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 :root {
     --primary: #2563eb;
     --bg: #ffffff;
@@ -147,7 +147,7 @@ h4 {
 .chart-wrapper canvas {
   width: 100% !important;
   max-height: 220px;
-=======
+}
 :root {
     --primary: #2563eb;
     --bg: #ffffff;
@@ -267,5 +267,4 @@ h4 {
     margin: 10px 0 5px 0;
     font-size: 0.9rem;
     color: #475569;
->>>>>>> 32b4c9cfad65f744a6f86c1c2f7e06640748dbcf
 }

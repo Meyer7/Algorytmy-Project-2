@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-/**
- * Buduje strukturę danych w zależności od wybranej reprezentacji.
- * To jest kluczowe dla Twojej analizy porównawczej.
- */
 function getGraphData(nodes, edges, isDirected, type) {
     const V = nodes.length;
     const nodeMap = {};
@@ -91,11 +86,7 @@ function bellmanFord(nodes, edges, startNodeId, isDirected) {
     }
     // Zwracamy typ 'list', aby system wiedział jak to wyświetlić
     return { dist, prev, nodeMap, type: 'list', rawData: null }; 
-=======
-/**
- * Buduje strukturę danych w zależności od wybranej reprezentacji.
- * To jest kluczowe dla Twojej analizy porównawczej.
- */
+
 function getGraphData(nodes, edges, isDirected, type) {
     const V = nodes.length;
     const nodeMap = {};
@@ -184,5 +175,5 @@ function bellmanFord(nodes, edges, startNodeId, isDirected) {
     }
     // Zwracamy typ 'list', aby system wiedział jak to wyświetlić
     return { dist, prev, nodeMap, type: 'list', rawData: null }; 
->>>>>>> 32b4c9cfad65f744a6f86c1c2f7e06640748dbcf
+    }
 }

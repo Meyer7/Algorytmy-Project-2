@@ -63,7 +63,11 @@ function updateStats() {
                 opt.textContent = `Wierzchołek ${n.label}`;
                 select.appendChild(opt);
             });
-            if (currentVal) select.value = currentVal;
+            if (currentVal && select.querySelector(`option[value="${currentVal}"]`)) {
+                select.value = currentVal;
+            } else if (G.nodes.length > 0) {
+                select.value = G.nodes[0].id;
+            }
         }
     }
 }
@@ -207,10 +211,26 @@ function draw() {
 
         // Rysowanie wagi
         ctx.font = 'bold 12px Arial';
+        const weightText = String(e.weight);
+        const reverseEdge = G.edges.some(other => other.from === e.to && other.to === e.from && other.id !== e.id);
+        const offset = reverseEdge ? 16 : 0;
+        const sideSign = reverseEdge ? ((e.from < e.to) ? 1 : -1) : 0;
+        const midX = (startX + endX) / 2 + offset * Math.cos(angle + Math.PI / 2) * sideSign;
+        const midY = (startY + endY) / 2 + offset * Math.sin(angle + Math.PI / 2) * sideSign;
+
+        const bgPaddingX = 4;
+        const bgPaddingY = 2;
+        const textWidth = ctx.measureText(weightText).width;
+        const textHeight = 14;
+
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(midX - textWidth / 2 - bgPaddingX, midY - textHeight / 2 - bgPaddingY, textWidth + bgPaddingX * 2, textHeight + bgPaddingY * 2);
+
         ctx.fillStyle = e.weight < 0 ? '#ef4444' : '#1e293b';
-        const midX = (startX + endX) / 2;
-        const midY = (startY + endY) / 2;
-        ctx.fillText(e.weight, midX, midY - 10);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(weightText, midX, midY);
+        ctx.textBaseline = 'alphabetic';
     });
 
     // Wierzchołki
