@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt Grafy - Analiza Algorytmów</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1>Analizator Ścieżek i Grafów</h1>
+        <div class="stats">
+            V: <span id="stV">0</span> | E: <span id="stE">0</span> | 
+            Typ: <span id="stDir">Nieskierowany</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="controls">
+            <div class="control-group">
+                <h3>Edycja</h3>
+                <button class="btn active" id="mMove" onclick="setMode('move')">Przesuń</button>
+                <button class="btn" id="mAddNode" onclick="setMode('addNode')">Dodaj V</button>
+                <button class="btn" id="mAddEdge" onclick="setMode('addEdge')">Dodaj E</button>
+            </div>
+
+            <div class="control-group">
+                <h3>Konfiguracja Wag</h3>
+                <div style="margin-bottom: 8px;">
+                    <label>Maks. waga:</label>
+                    <input type="number" id="maxWeight" value="15" style="width: 50px;">
+                </div>
+                <div style="margin-bottom: 8px;">
+                    <label>
+                        <input type="checkbox" id="allowNegative"> Pozwól na ujemne
+                    </label>
+                </div>
+                <div style="margin-bottom: 8px;">
+                    <label>
+                        <input type="checkbox" id="isDirected"> Skierowany
+                    </label>
+                </div>
+                <p style="font-size: 0.7rem; color: #64748b;">
+                    *Wagi ujemne wymagają algorytmu Bellmana-Forda.
+                </p>
+            </div>
+
+            <div class="control-group">
+                <h3>Dane</h3>
+                <input type="number" id="genCount" value="6" min="1" max="1000" style="width: 40px;">
+                <button class="btn" onclick="generateRandom()">Generuj Losowo</button>
+                <button class="btn" onclick="document.getElementById('fileInput').click()">Wczytaj z pliku</button>
+                <button class="btn" onclick="exportGraph()">Eksportuj JSON</button>
+                <input type="file" id="fileInput" style="display:none" onchange="loadFile(event)">
+                <button class="btn danger" onclick="clearGraph()">Wyczyść</button>
+            </div>
+
+            <div class="control-group">
+                <h3>Algorytm</h3>
+                <label>Start:</label>
+                <select id="startNodeSelect" style="width: 100%; margin-bottom: 5px;"></select>
+                <select id="reprSelect" style="width: 100%; margin-bottom: 10px;">
+                    <option value="matrix">Macierz sąsiedztwa</option>
+                    <option value="list">Lista sąsiedztwa</option>
+                </select>
+                <select id="algoSelect" style="width: 100%; margin-bottom: 10px;">
+                    <option value="dijkstra">Dijkstra (wag. dodatnie)</option>
+                    <option value="bellman">Bellman-Ford (wag. ujemne)</option>
+                </select>
+                <button class="btn primary" onclick="runAlgo()">URUCHOM</button>
+            </div>
+        </section>
+
+        <section class="canvas-area">
+            <canvas id="gc"></canvas>
+            <div id="mi" class="hint">Wybierz tryb edycji</div>
+        </section>
+
+        <section class="results-area">
+            <h3>Wyniki i Analiza</h3>
+            <div id="perfInfo" style="font-size: 0.8rem; color: #2563eb; margin-bottom: 10px;"></div>
+            <div id="resSection" class="results-list">
+                <p class="empty-msg">Brak wyników.</p>
+            </div>
+            <hr>
+            <div class="control-group">
+                <h3>Analiza Eksperymentalna</h3>
+                <button class="btn primary" onclick="runFullBenchmark(benchmarkData)">▶ URUCHOM PEŁNY TEST</button>
+                <button class="btn" onclick="downloadBenchmarkCSV()">📥 Pobierz dane do wykresów (CSV)</button>
+                <div id="benchProgress" style="font-size: 0.8rem; margin-top: 5px; color: var(--primary);"></div>
+                <!-- Po divie id="benchProgress", przed zamknięciem sekcji results-area -->
+                <div id="chartsSection" class="charts-section" style="display:none;">
+                <div class="chart-wrapper">
+                    <h4>Czas vs Liczba wierzchołków (V)</h4>
+                    <canvas id="chartV"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h4>Czas vs Liczba krawędzi (E)</h4>
+                    <canvas id="chartE"></canvas>
+                </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script src="algorytmy.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
